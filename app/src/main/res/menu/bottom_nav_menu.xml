@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/gameScreenFragment"
+        android:icon="@drawable/arrow"
+        android:title="Home" />
+    <item
+        android:id="@+id/constructionAreaFragment"
+        android:icon="@drawable/arrow"
+        android:title="Structures" />
+    <item
+        android:id="@+id/upgradeFragment"
+        android:icon="@drawable/arrow"
+        android:title="Upgrades" />
+    <item
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/arrow"
+        android:title="Market" />
+</menu>

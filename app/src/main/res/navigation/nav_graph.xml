@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/gameScreenFragment">
+
+    <fragment
+        android:id="@+id/gameScreenFragment"
+        android:name="com.example.clickergame.ui.GameScreenFragment"
+        android:label="GameScreenFragment"
+        tools:layout="@layout/fragment_game_screen">
+        <action
+            android:id="@+id/action_gameScreenFragment_to_constructionAreaFragment"
+            app:destination="@id/constructionAreaFragment" />
+        <action
+            android:id="@+id/action_gameScreenFragment_to_upgradeFragment"
+            app:destination="@id/upgradeFragment" />
+        <action
+            android:id="@+id/action_gameScreenFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/constructionAreaFragment"
+        android:name="com.example.clickergame.ui.ConstructionAreaFragment"
+        android:label="ConstructionAreaFragment"
+        tools:layout="@layout/fragment_building_area_central">
+        <action
+            android:id="@+id/action_constructionAreaFragment_to_structureSelectionFragment"
+            app:destination="@id/structureSelectionFragment" />
+        <action
+            android:id="@+id/action_constructionAreaFragment_to_gameScreenFragment"
+            app:destination="@id/gameScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/structureSelectionFragment"
+        android:name="com.example.clickergame.ui.StructureSelectionFragment"
+        android:label="StructureSelectionFragment"
+        tools:layout="@layout/fragment_structure_selection">
+        <action
+            android:id="@+id/action_structureSelectionFragment_to_constructionAreaFragment"
+            app:destination="@id/constructionAreaFragment" />
+        <argument
+            android:name="construction_site_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/upgradeFragment"
+        android:name="com.example.clickergame.ui.UpgradeFragment"
+        android:label="UpgradeFragment"
+        tools:layout="@layout/fragment_upgrade_shop">
+        <action
+            android:id="@+id/action_upgradeFragment_to_gameScreenFragment"
+            app:destination="@id/gameScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/marketFragment"
+        android:name="com.example.clickergame.ui.MarketFragment"
+        android:label="MarketFragment"
+        tools:layout="@layout/fragment_market">
+        <action
+            android:id="@+id/action_marketFragment_to_gameScreenFragment"
+            app:destination="@id/gameScreenFragment" />
+    </fragment>
+</navigation>
