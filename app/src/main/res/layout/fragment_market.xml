@@ -6,7 +6,7 @@
     android:background="@drawable/backgroud_area_1"
     >
 
-    <!--  ...  -->
+    <!--  Background -->
 
     <ImageView
         android:id="@+id/imageView4"
@@ -15,25 +15,25 @@
         android:src="#C1FFFFFF" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#D4FFF7"
-        app:layout_constraintBottom_toTopOf="@+id/resource_tab"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/wooden_board"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
         android:src="@drawable/wooden_board"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resource_tab" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <!--  Resource tab  -->
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#D4FFF7"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:id="@+id/resource_tab"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp">
 
@@ -62,10 +62,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/resource_1_image"
                 android:text="0" />
+
+            <TextView
+                android:id="@+id/resource_1_growth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="#0CB700"
+                android:layout_toEndOf="@+id/resource_1_count"
+                android:text="0" />
+
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             >
 
@@ -84,10 +96,21 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/resource_2_image"
                 android:text="0" />
+
+            <TextView
+                android:id="@+id/resource_2_growth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="#0CB700"
+                android:layout_toEndOf="@+id/resource_2_count"
+                android:text="0" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             >
 
@@ -110,6 +133,8 @@
 
     </LinearLayout>
 
+<!--    Market Board -->
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -122,9 +147,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/resource_1_container"
-            android:layout_marginStart="30dp"
             android:layout_width="350dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp">
 
             <ImageView
                 android:id="@+id/resource_1_icon"
@@ -141,15 +166,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
-                android:textColor="#5B3A00"
-                android:textStyle="bold"
-                android:textSize="16sp"
                 android:text="1 x 0.25 Gold"
+                android:textColor="#5B3A00"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/resource_1_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -158,16 +184,46 @@
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button_buy_resource_1"
-                android:layout_width="110dp"
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:text="Sell 100"
-                android:backgroundTint="#5B3A00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/button_buy_resource_1"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#5B3A00"
+                    android:src="@drawable/wooden_plank"
+                    android:scaleX="1.7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/button_buy_resource_1"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="SELL 100" />
+
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -210,16 +266,38 @@
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
                 android:id="@+id/button_buy_resource_2"
                 android:layout_width="110dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="#5B3A00"
-                android:text="Sell 100"
+                android:src="@drawable/wooden_plank"
+                android:scaleX="1.7"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/button_buy_resource_2"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="SELL 100" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

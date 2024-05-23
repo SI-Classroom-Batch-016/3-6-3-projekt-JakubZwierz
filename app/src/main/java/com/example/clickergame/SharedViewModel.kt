@@ -29,26 +29,30 @@ class SharedViewModel : ViewModel() {
     // List of structures that are available to purchase.
     val listOfStructures: Array<Structure> = StructureRepository().structureList.toTypedArray()
 
-    // List of structures that have been purchased in game.
+    // List of structures that have been purchased in game for a specific area.
     // The number of structures must equal the number of the available slots.
     private val _listOfPlacedStructures = MutableLiveData(
         arrayOf(
             Structure("", 0, 0, "csite_1", R.drawable.tools_transparent, true),
-            Structure("", 0, 0, "csite_2", R.drawable.tools_transparent,true),
-            Structure("", 0, 0, "csite_3", R.drawable.tools_transparent,true),
-            Structure("", 0, 0, "csite_4", R.drawable.tools_transparent,true),
+            Structure("", 0, 0, "csite_2", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_3", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_4", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_5", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_6", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_7", R.drawable.tools_transparent, true),
+            Structure("", 0, 0, "csite_8", R.drawable.tools_transparent, true),
         )
     )
 
     val listOfPlacedStructures: LiveData<Array<Structure>>
         get() = _listOfPlacedStructures
 
+
     //    This function check if user has resources available to purchase another structure and then places the structure on the selected spot.
     fun placeStructure(structure: Structure, ID: String) {
 
 //        First we are defining how many resources are available.
         val resourceAmount: Int = resource1.value!!.amount.toString().toInt()
-
 
 //    We are defining the ID for the construction slot. We are doing it by loading whole list of construction slots and then we are filtering the list by IDs.
 //    If the ID provided in the function parameter is correct, meaning equals the ID of the slot, then the index of that slot is selected.
@@ -119,15 +123,23 @@ class SharedViewModel : ViewModel() {
 
     private val resourceList: MutableList<Resource> = ResourceRepository().resources
 
+    // Resource storage
+
+    val maximumWoodStored: Int = 400
+
     // Wood generation
-    private var powerSawActive : Boolean = false
-    private var lumberMillCount : Int = 0
+    private var powerSawActive: Boolean = false
+    private var lumberMillCount: Int = 0
 
     private var resource1growth: Int = 0
-    private var totalResource1growth : Int = 0
+//    private var totalResource1growth : Int = 0
+
+    private var _totalResource1growth = MutableLiveData<Int>()
+    val totalResource1growth: LiveData<Int>
+        get() = _totalResource1growth
 
     fun updateTotalResource1Growth() {
-        totalResource1growth = if (!powerSawActive) {
+        _totalResource1growth.value = if (!powerSawActive) {
             resource1growth
         } else {
             resource1growth + lumberMillCount * 2
@@ -135,7 +147,7 @@ class SharedViewModel : ViewModel() {
     }
 
 
-    private var resourcePerClick : Int = 1
+    private var resourcePerClick: Int = 1
 
     private var _resource1 = MutableLiveData<Resource>(resourceList[0])
     val resource1: LiveData<Resource>
@@ -164,15 +176,17 @@ class SharedViewModel : ViewModel() {
     }
 
     fun increaseAmountWood() {
-        _resource1.value?.let { resource ->
-            resource.amount += totalResource1growth
-            _resource1.postValue(resource)
+        if (maximumWoodStored > _resource1.value!!.amount) {
+            _resource1.value?.let { resource ->
+                resource.amount += totalResource1growth.value!!
+                _resource1.postValue(resource)
+            }
         }
     }
 
     fun increaseAmountStone() {
         _resource2.value?.let { resource ->
-            resource.amount += totalResource1growth
+            resource.amount += totalResource1growth.value!!
             _resource2.postValue(resource)
         }
     }
@@ -182,7 +196,7 @@ class SharedViewModel : ViewModel() {
 
         generatingWoodJob = viewModelScope.launch {
             while (true) {
-                delay(1000)
+                delay(200)
                 increaseAmountWood()
             }
         }
@@ -190,7 +204,7 @@ class SharedViewModel : ViewModel() {
 
 //    Market functions
 
-    fun exchangeWoodForGold(){
+    fun exchangeWoodForGold() {
         _resource1.value?.let { resource ->
             resource.amount -= 100
             _resource1.postValue(resource)
@@ -200,7 +214,8 @@ class SharedViewModel : ViewModel() {
             _resource3.postValue(resource)
         }
     }
-    fun exchangeStoneForGold(){
+
+    fun exchangeStoneForGold() {
         _resource2.value?.let { resource ->
             resource.amount -= 100
             _resource2.postValue(resource)
@@ -213,8 +228,8 @@ class SharedViewModel : ViewModel() {
 
 //    Character upgrades
 
-    fun increaseResourcePerClickBy1 (){
-        resourcePerClick ++
+    fun increaseResourcePerClickBy1() {
+        resourcePerClick++
 
         _resource3.value?.let { resource ->
             resource.amount -= UpgradeRepository().listOfUpgrades[0].upgradeCost
@@ -222,7 +237,7 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun increaseResourcePerClickBy5 (){
+    fun increaseResourcePerClickBy5() {
         resourcePerClick += 5
         _resource3.value?.let { resource ->
             resource.amount -= UpgradeRepository().listOfUpgrades[1].upgradeCost
@@ -230,7 +245,7 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun upgradePowerSaws (){
+    fun upgradePowerSaws() {
         powerSawActive = true
         updateTotalResource1Growth()
         _resource3.value?.let { resource ->
@@ -238,7 +253,8 @@ class SharedViewModel : ViewModel() {
             _resource3.postValue(resource)
         }
     }
-    fun addLumberMill(){
+
+    fun addLumberMill() {
         lumberMillCount++
         updateTotalResource1Growth()
     }

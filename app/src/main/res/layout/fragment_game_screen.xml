@@ -25,6 +25,15 @@
 
 <!--  Resource tab  -->
 
+    <!--    Resource Bar -->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#D4FFF7"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -36,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp">
 
@@ -55,10 +64,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/resource_1_image"
                 android:text="0" />
+
+            <TextView
+                android:id="@+id/resource_1_growth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="#0CB700"
+                android:layout_toEndOf="@+id/resource_1_count"
+                android:text="0" />
+
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             >
 
@@ -77,10 +98,21 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/resource_2_image"
                 android:text="0" />
+
+            <TextView
+                android:id="@+id/resource_2_growth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="#0CB700"
+                android:layout_toEndOf="@+id/resource_2_count"
+                android:text="0" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             >
 

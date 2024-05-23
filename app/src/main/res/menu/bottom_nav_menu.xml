@@ -2,18 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/gameScreenFragment"
-        android:icon="@drawable/arrow"
-        android:title="Home" />
+        android:icon="@drawable/building_icon"
+        android:title="Home"
+        />
     <item
         android:id="@+id/constructionAreaFragment"
-        android:icon="@drawable/arrow"
+        android:icon="@drawable/architecture_icon"
         android:title="Structures" />
     <item
         android:id="@+id/upgradeFragment"
-        android:icon="@drawable/arrow"
+        android:icon="@drawable/tool_icon"
         android:title="Upgrades" />
     <item
         android:id="@+id/marketFragment"
-        android:icon="@drawable/arrow"
-        android:title="Market" />
+        android:icon="@drawable/money_icon"
+        android:title="Market"
+        />
 </menu>
