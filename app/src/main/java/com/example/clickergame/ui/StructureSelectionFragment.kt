@@ -55,7 +55,9 @@ class StructureSelectionFragment : Fragment() {
         }
 
         binding.buttonBack.setOnClickListener {
-            findNavController().navigate(StructureSelectionFragmentDirections.actionStructureSelectionFragmentToConstructionAreaFragment())
+            var action = StructureSelectionFragmentDirections.actionStructureSelectionFragmentToConstructionAreaFragment()
+            action.layoutID = "home"
+            findNavController().navigate(action)
         }
 
 //        val resourceUpdate: (Int) -> Unit = { resourceWood ->

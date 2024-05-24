@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,6 +14,8 @@ import com.example.clickergame.adapter.StructureAdapter
 import com.example.clickergame.adapter.UpgradeAdapter
 import com.example.clickergame.data.StructureRepository
 import com.example.clickergame.data.UpgradeRepository
+import com.example.clickergame.databinding.FragmentBuildingAreaCentralBinding
+import com.example.clickergame.databinding.FragmentBuildingAreaNorthBinding
 import com.example.clickergame.databinding.FragmentStructureSelectionBinding
 import com.example.clickergame.databinding.FragmentUpgradeShopBinding
 
@@ -63,6 +66,17 @@ class UpgradeFragment : Fragment() {
             binding.resource3Count.text = resource.amount.toString()
         }
 
+//        Resource growth observer
+
+        viewModel.totalResource1growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource1Growth.text =
+                        "+" + resourceGrowth.toString()
+                }
+        viewModel.totalResource2growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource2Growth.text =
+                        "+" + resourceGrowth.toString()
+        }
+
 //        Upgrade Data Bindings
         //        Upgrade 1
         binding.upgradeName1.text = upgradeList[0].upgradeName
@@ -105,6 +119,22 @@ class UpgradeFragment : Fragment() {
                     viewModel.upgradePowerSaws()
                 }
             }
+        }
+//    Buying Areas
+
+        binding.buyAreaNorth.setOnClickListener {
+            viewModel.resource3.observe(viewLifecycleOwner){gold ->
+                if(gold.amount >= 300){
+                    viewModel.unlockArea()
+                } else {
+                    val information : CharSequence = "Not enough gold!"
+                    val duration = Toast.LENGTH_SHORT
+
+                    val toast = Toast.makeText(activity, information , duration)
+                    toast.show()
+                }
+            }
+
         }
     }
 }

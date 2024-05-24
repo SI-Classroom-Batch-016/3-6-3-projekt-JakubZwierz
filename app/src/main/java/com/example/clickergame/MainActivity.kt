@@ -1,14 +1,20 @@
 package com.example.clickergame
 
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.clickergame.databinding.ActivityMainBinding
+import com.example.clickergame.databinding.FragmentBuildingAreaCentralBinding
+import com.example.clickergame.databinding.FragmentBuildingAreaNorthBinding
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,5 +40,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+
     }
 }

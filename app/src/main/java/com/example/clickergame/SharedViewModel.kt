@@ -1,6 +1,9 @@
 package com.example.clickergame
 
 import android.util.Log
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
@@ -8,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickergame.adapter.StructureAdapter
+import com.example.clickergame.data.CastlePartsRepository
 import com.example.clickergame.data.ResourceRepository
 import com.example.clickergame.data.StructureRepository
 import com.example.clickergame.data.UpgradeRepository
@@ -53,6 +57,7 @@ class SharedViewModel : ViewModel() {
 
 //        First we are defining how many resources are available.
         val resourceAmount: Int = resource1.value!!.amount.toString().toInt()
+        val resourceStoneAmount: Int = resource2.value!!.amount.toString().toInt()
 
 //    We are defining the ID for the construction slot. We are doing it by loading whole list of construction slots and then we are filtering the list by IDs.
 //    If the ID provided in the function parameter is correct, meaning equals the ID of the slot, then the index of that slot is selected.
@@ -61,7 +66,7 @@ class SharedViewModel : ViewModel() {
             it.ID == ID
 //            We are checking if the index is not empty, to make sure that correct ID has been found. Then we check if there are enough resources.
         }
-        if (correctStructureSlot != -1 && resourceAmount >= structure.woodCost) {
+        if (correctStructureSlot != -1 && resourceAmount >= structure.woodCost && resourceStoneAmount >= structure.stoneCost) {
 
             Log.d(
                 "Placing Structure",
@@ -78,19 +83,42 @@ class SharedViewModel : ViewModel() {
             currentList[correctStructureSlot].emptySlot = false
             _listOfPlacedStructures.value = updatedList.toTypedArray()
 
+//            BUILDING FUNCTIONALITY
 //            Here we are implementing what is actually happening when the building is constructed.
-            if (resourceAmount >= structure.woodCost) {
-                resource1growth += 2
+            when (structure.ID) {
+//                1. In case of lumber mill.---------------------------
+                "lumber" -> if (resourceAmount >= structure.woodCost) {
+                    resource1growth += 2
 //            We also need to update out live data. In this case we are removing the structure resource cost.
-                _resource1.value?.let { resource ->
-                    resource.amount -= structure.woodCost
-                    _resource1.postValue(resource)
-                }
-                addLumberMill()
+                    _resource1.value?.let { resource ->
+                        resource.amount -= structure.woodCost
+                        _resource1.postValue(resource)
+                    }
+                    addLumberMill()
 
 //                And then we are restarting our coroutine which is generating the resource.
-                generatingWoodJob?.cancel()
-                generateWood()
+                    generatingWoodJob?.cancel()
+                    generateWood()
+                }
+//            2. In case of other building.--------------------------
+                "quarry" -> if (resourceAmount >= structure.woodCost && resourceStoneAmount >= structure.stoneCost) {
+                    resource2growth += 1
+                    updateTotalResource2Growth()
+//            We also need to update out live data. In this case we are removing the structure resource cost.
+                    _resource1.value?.let { resource ->
+                        resource.amount -= structure.woodCost
+                        _resource1.postValue(resource)
+                    }
+                    _resource2.value?.let { resource ->
+                        resource.amount -= structure.stoneCost
+                        _resource2.postValue(resource)
+                    }
+//                And then we are restarting our coroutine which is generating the resource.
+                    generatingStoneJob?.cancel()
+                    generateStone()
+                }
+
+                "other" -> return
             }
 
             Log.d(
@@ -110,6 +138,39 @@ class SharedViewModel : ViewModel() {
     val structure: LiveData<Structure>
         get() = _structure
 
+//----------------------
+// Unlocked Areas
+//----------------------
+
+    var constructionAreaNorthUnlocked: Boolean = false
+
+    fun unlockArea() {
+        constructionAreaNorthUnlocked = true
+    }
+
+//----------------------
+// Building Castle
+//----------------------
+
+    val castleParts = CastlePartsRepository().castleParts
+    var partIndex : Int = 0
+
+    fun buildingCastlePart (castlePart : ImageView){
+        if (resource1.value!!.amount >= castleParts[partIndex].woodCost && resource2.value!!.amount >= castleParts[partIndex].stoneCost){
+               castlePart.isVisible = true
+                partIndex ++
+
+            _resource1.value?.let { resource ->
+                resource.amount -= 40
+                _resource1.postValue(resource)
+            }
+            _resource2.value?.let { resource ->
+                resource.amount -= 10
+                _resource2.postValue(resource)
+            }
+
+        }
+    }
 
 //----------------------
 // Resources & Materials
@@ -118,6 +179,7 @@ class SharedViewModel : ViewModel() {
     //    Coroutines Jobs
 
     private var generatingWoodJob: Job? = null
+    private var generatingStoneJob: Job? = null
 
     //    Resource variables
 
@@ -126,6 +188,8 @@ class SharedViewModel : ViewModel() {
     // Resource storage
 
     val maximumWoodStored: Int = 400
+
+    val maximumStoneStored: Int = 200
 
     // Wood generation
     private var powerSawActive: Boolean = false
@@ -146,8 +210,23 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+//    Stone generation
+
+    private var resource2growth: Int = 0
+
+    private var _totalResource2growth = MutableLiveData<Int>(0)
+    val totalResource2growth: LiveData<Int>
+        get() = _totalResource2growth
+
+    fun updateTotalResource2Growth() {
+        _totalResource2growth.value = resource2growth
+    }
+
+//    Manual resource generation
 
     private var resourcePerClick: Int = 1
+
+//    Resources available
 
     private var _resource1 = MutableLiveData<Resource>(resourceList[0])
     val resource1: LiveData<Resource>
@@ -160,6 +239,8 @@ class SharedViewModel : ViewModel() {
     private var _resource3 = MutableLiveData<Resource>(resourceList[2])
     val resource3: LiveData<Resource>
         get() = _resource3
+
+//    Functions
 
     fun addWoodOnClick() {
         _resource1.value?.let { resource ->
@@ -185,9 +266,11 @@ class SharedViewModel : ViewModel() {
     }
 
     fun increaseAmountStone() {
-        _resource2.value?.let { resource ->
-            resource.amount += totalResource1growth.value!!
-            _resource2.postValue(resource)
+        if (maximumStoneStored > _resource2.value!!.amount) {
+            _resource2.value?.let { resource ->
+                resource.amount += totalResource2growth.value!!
+                _resource2.postValue(resource)
+            }
         }
     }
 
@@ -198,6 +281,17 @@ class SharedViewModel : ViewModel() {
             while (true) {
                 delay(200)
                 increaseAmountWood()
+            }
+        }
+    }
+
+    fun generateStone() {
+        generatingStoneJob?.cancel()
+
+        generatingStoneJob = viewModelScope.launch {
+            while (true) {
+                delay(200)
+                increaseAmountStone()
             }
         }
     }

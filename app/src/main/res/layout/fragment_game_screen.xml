@@ -5,14 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--  Background  -->
+    <!--  Background  -->
 
     <ImageView
+        android:id="@+id/imageView11"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#D4FFF7"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--    Resource Bar -->
 
     <ImageView
         android:id="@+id/imageView2"
@@ -21,11 +25,6 @@
         android:src="@drawable/landscape_game_screen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-
-<!--  Resource tab  -->
-
-    <!--    Resource Bar -->
 
     <ImageView
         android:layout_width="match_parent"
@@ -53,7 +52,7 @@
                 android:id="@+id/resource_1_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/wood_pile"/>
+                android:src="@drawable/wood_pile" />
 
             <TextView
                 android:id="@+id/resource_1_count"
@@ -72,22 +71,21 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:textColor="#0CB700"
                 android:layout_toEndOf="@+id/resource_1_count"
-                android:text="0" />
+                android:text="0"
+                android:textColor="#0CB700" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/resource_2_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/stone"/>
+                android:src="@drawable/stone" />
 
             <TextView
                 android:id="@+id/resource_2_count"
@@ -106,21 +104,20 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:textColor="#0CB700"
                 android:layout_toEndOf="@+id/resource_2_count"
-                android:text="0" />
+                android:text="0"
+                android:textColor="#0CB700" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/resource_3_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/goldbar"/>
+                android:src="@drawable/goldbar" />
 
             <TextView
                 android:id="@+id/resource_3_count"
@@ -149,14 +146,94 @@
         android:id="@+id/button_collect_resource_2"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/mining_rock_idle"
-        android:layout_marginBottom="80dp"
         android:layout_marginRight="40dp"
+        android:layout_marginBottom="80dp"
+        android:src="@drawable/mining_rock_idle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!--  Resource buttons  -->
 
+    <!--    Castle -->
 
+    <ImageView
+        android:id="@+id/castle_part_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/tower_middle" />
+
+    <ImageView
+        android:id="@+id/castle_part_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="172dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/castle_back" />
+
+    <ImageView
+        android:id="@+id/castle_part_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="200dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/castle_main" />
+
+    <ImageView
+        android:id="@+id/castle_part_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="370dp"
+        android:layout_marginStart="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/wall_right" />
+
+    <ImageView
+        android:id="@+id/castle_part_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="340dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toEndOf="@+id/castle_part_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/wall_main" />
+
+
+    <ImageView
+        android:id="@+id/castle_part_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/castle_part_1"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="110dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/left_tower" />
+
+    <ImageView
+        android:id="@+id/build_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/construction_symbol" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

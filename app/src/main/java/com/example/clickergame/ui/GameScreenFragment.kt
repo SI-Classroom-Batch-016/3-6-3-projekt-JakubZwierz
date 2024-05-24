@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,7 @@ import com.example.clickergame.databinding.FragmentGameScreenBinding
 
 class GameScreenFragment : Fragment() {
 
-    private val viewModel : SharedViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     private lateinit var binding: FragmentGameScreenBinding
 
@@ -32,19 +33,27 @@ class GameScreenFragment : Fragment() {
 
 //        Resource Tracking - Resource Bar
 
-        viewModel.resource1.observe(viewLifecycleOwner){
-            resource ->
+        viewModel.resource1.observe(viewLifecycleOwner) { resource ->
             binding.resource1Count.text = resource.amount.toString()
         }
 
-        viewModel.resource2.observe(viewLifecycleOwner){
-                resource ->
+        viewModel.resource2.observe(viewLifecycleOwner) { resource ->
             binding.resource2Count.text = resource.amount.toString()
         }
 
-        viewModel.resource3.observe(viewLifecycleOwner){
-                resource ->
+        viewModel.resource3.observe(viewLifecycleOwner) { resource ->
             binding.resource3Count.text = resource.amount.toString()
+        }
+
+        //        Resource growth observer
+
+        viewModel.totalResource1growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource1Growth.text =
+                "+" + resourceGrowth.toString()
+        }
+        viewModel.totalResource2growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource2Growth.text =
+                "+" + resourceGrowth.toString()
         }
 
 
@@ -53,7 +62,7 @@ class GameScreenFragment : Fragment() {
         binding.buttonCollectResource1.setOnClickListener {
             viewModel.addWoodOnClick()
             binding.buttonCollectResource1.animate()
-                .withStartAction{
+                .withStartAction {
                     binding.buttonCollectResource1.setImageResource(R.drawable.choping_wood_hit)
                 }
                 .setDuration(0)
@@ -70,7 +79,7 @@ class GameScreenFragment : Fragment() {
         binding.buttonCollectResource2.setOnClickListener {
             viewModel.addStoneOnClick()
             binding.buttonCollectResource2.animate()
-                .withStartAction{
+                .withStartAction {
                     binding.buttonCollectResource2.setImageResource(R.drawable.mining_rock_idle)
                 }
                 .setDuration(0)
@@ -80,6 +89,31 @@ class GameScreenFragment : Fragment() {
                     }, 100)
                 }
                 .start()
+        }
+
+        //    Building Castle
+        binding.buildButton.setOnClickListener {
+            if (binding.castlePart1.isVisible) {
+                if (binding.castlePart2.isVisible) {
+                    if (binding.castlePart3.isVisible) {
+                        if (binding.castlePart4.isVisible) {
+                            if (binding.castlePart5.isVisible) {
+                                viewModel.buildingCastlePart(binding.castlePart6)
+                            } else {
+                                viewModel.buildingCastlePart(binding.castlePart5)
+                            }
+                        } else {
+                            viewModel.buildingCastlePart(binding.castlePart4)
+                        }
+                    } else {
+                        viewModel.buildingCastlePart(binding.castlePart3)
+                    }
+                } else {
+                    viewModel.buildingCastlePart(binding.castlePart2)
+                }
+            } else {
+                viewModel.buildingCastlePart(binding.castlePart1)
+            }
         }
 
     }

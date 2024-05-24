@@ -42,6 +42,17 @@ class MarketFragment : Fragment() {
             binding.resource3Count.text = resource.amount.toString()
         }
 
+        //        Resource growth observer
+
+        viewModel.totalResource1growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource1Growth.text =
+                "+" + resourceGrowth.toString()
+        }
+        viewModel.totalResource2growth.observe(viewLifecycleOwner) { resourceGrowth ->
+            binding.resource2Growth.text =
+                "+" + resourceGrowth.toString()
+        }
+
 //        Resource exchange
 //        Wood
 
